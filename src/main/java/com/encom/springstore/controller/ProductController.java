@@ -5,6 +5,8 @@ import com.encom.springstore.exception.ResourceAlreadyExistsException;
 import com.encom.springstore.exception.ResourceNotFoundException;
 import com.encom.springstore.model.entity.Product;
 import com.encom.springstore.service.ProductService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,13 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Api("Product Controller")
 @RequestMapping(path = "/product")
 public class ProductController {
     private final ProductService productService;
 
     //  return all with pagination and filter logic
+    @ApiOperation("Get all products")
     @GetMapping("/products")
     public ResponseEntity<List<Product>> findAll(
             @RequestParam(value="page", defaultValue="1") int pageNumber,
@@ -40,6 +44,7 @@ public class ProductController {
     }
 
     //  return specific product by id
+    @ApiOperation("Get product by id")
     @GetMapping(value = "/{productID}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> findProductById(@PathVariable int productID) {
         try {
@@ -56,6 +61,7 @@ public class ProductController {
     }
 
     // return new created product
+    @ApiOperation("Create new product")
     @PostMapping(value = "/products", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         try {
@@ -75,6 +81,7 @@ public class ProductController {
     }
 
     // change existed product
+    @ApiOperation("Change existed product")
     @PutMapping(value="/{productID}")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable int productID) {
         try {
@@ -94,6 +101,7 @@ public class ProductController {
     }
 
     // delete product by id
+    @ApiOperation("Delete product")
     @DeleteMapping(value="/{productID}")
     public ResponseEntity<Void> deleteProductById(@PathVariable int productID) {
         try {

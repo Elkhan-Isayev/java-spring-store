@@ -5,6 +5,8 @@ import com.encom.springstore.exception.ResourceAlreadyExistsException;
 import com.encom.springstore.exception.ResourceNotFoundException;
 import com.encom.springstore.model.entity.Customer;
 import com.encom.springstore.service.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,13 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Api("Customer Controller")
 @RequestMapping(path = "/customer")
 public class CustomerController {
     private final CustomerService customerService;
 
     //  return all with pagination and filter logic
+    @ApiOperation("Get all customers")
     @GetMapping("/customers")
     public ResponseEntity<List<Customer>> findAll(
             @RequestParam(value="page", defaultValue="1") int pageNumber,
@@ -40,6 +44,7 @@ public class CustomerController {
     }
 
     //  return specific customer by id
+    @ApiOperation("Get customer by id")
     @GetMapping(value = "/{customerID}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> findCustomerById(@PathVariable int customerID) {
         try {
@@ -56,6 +61,7 @@ public class CustomerController {
     }
 
     // return new created customer
+    @ApiOperation("Create new customer")
     @PostMapping(value = "/customers", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
         try {
@@ -75,6 +81,7 @@ public class CustomerController {
     }
 
     // change existed customer
+    @ApiOperation("Change existed customer")
     @PutMapping(value="/{customerID}")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable int customerID) {
         try {
@@ -94,6 +101,7 @@ public class CustomerController {
     }
 
     // delete customer by id
+    @ApiOperation("Delete customer")
     @DeleteMapping(value="/{customerID}")
     public ResponseEntity<Void> deleteCustomerById(@PathVariable int customerID) {
         try {

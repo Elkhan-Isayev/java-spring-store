@@ -6,7 +6,8 @@ It's program that demonstrates connections between users and purchases.
 3. INSERT mysql properties in application-db.yaml file
 4. Run mysql and create "store" schema
 5. Run SpringStoreApplication file
-6. Enjoy :) 
+6. Open http://localhost:8080/swagger-ui.html#/
+7. Enjoy :) 
 
 ## Can I contribute?
 
