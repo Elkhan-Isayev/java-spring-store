@@ -23,7 +23,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private int customerId;
-    private int itemId;
+    private int productId;
     @Column(name = "created_at")
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
