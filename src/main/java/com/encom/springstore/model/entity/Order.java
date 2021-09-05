@@ -22,8 +22,12 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int customerId;
-    private int productId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @JoinColumn(name = "customer_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Customer customer;
     @Column(name = "created_at")
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
