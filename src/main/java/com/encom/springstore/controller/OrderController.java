@@ -6,6 +6,8 @@ import com.encom.springstore.exception.ResourceAlreadyExistsException;
 import com.encom.springstore.exception.ResourceNotFoundException;
 import com.encom.springstore.model.entity.Order;
 import com.encom.springstore.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,13 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Api("Order Controller")
 @RequestMapping(path = "/order")
 public class OrderController {
     private final OrderService orderService;
 
     //  return all with pagination and filter logic
+    @ApiOperation("Get all orders")
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> findAll(
             @RequestParam(value="page", defaultValue="1") int pageNumber,
@@ -41,6 +45,7 @@ public class OrderController {
     }
 
     //  return specific order by id
+    @ApiOperation("Get order by id")
     @GetMapping(value = "/{orderID}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> findOrderById(@PathVariable int orderID) {
         try {
@@ -57,6 +62,7 @@ public class OrderController {
     }
 
     // return new created order
+    @ApiOperation("Create new order")
     @PostMapping(value = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> addOrder(@RequestBody Order order) {
         try {
@@ -76,6 +82,7 @@ public class OrderController {
     }
 
     // change existed order
+    @ApiOperation("Change existed order")
     @PutMapping(value="/{orderID}")
     public ResponseEntity<Order> updateOrder(@RequestBody Order order, @PathVariable int orderID) {
         try {
@@ -95,6 +102,7 @@ public class OrderController {
     }
 
     // delete order by id
+    @ApiOperation("Delete order")
     @DeleteMapping(value="/{orderID}")
     public ResponseEntity<Void> deleteOrderById(@PathVariable int orderID) {
         try {
