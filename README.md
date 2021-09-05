@@ -2,9 +2,11 @@
 It's program that demonstrates connections between users and purchases.
 ## Installation
 1. Download project to your computer
-2. Open project in the terminal
-3. Run docker-compose up -d
-4. Run project 
+2. Open project in IDE
+3. INSERT mysql properties in application-db.yaml file
+4. Run mysql
+5. Run SpringStoreApplication file
+6. Enjoy :) 
 
 ## Can I contribute?
 
