@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(Order order) throws ResourceAlreadyExistsException, BadResourceException {
-        if(!StringUtils.isEmpty(order.getCustomerId()) && !StringUtils.isEmpty(order.getProductId())) {
+        if(!StringUtils.isEmpty(order.getCustomer()) && !StringUtils.isEmpty(order.getProduct())) {
             if(orderRepository.existsById(order.getId())) {
                 throw new ResourceAlreadyExistsException("Order with id: " + order.getId() + " already exists");
             }
@@ -57,13 +57,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(int id, Order order) throws BadResourceException, ResourceNotFoundException {
-        if(!StringUtils.isEmpty(order.getCustomerId()) && !StringUtils.isEmpty(order.getProductId())) {
+        if(!StringUtils.isEmpty(order.getCustomer()) && !StringUtils.isEmpty(order.getProduct())) {
             if(!orderRepository.existsById(id)) {
                 throw new ResourceNotFoundException("Can not find order with id: " + order.getId());
             }
             Order foundedOrder = orderRepository.getById(id);
-            foundedOrder.setCustomerId(order.getCustomerId());
-            foundedOrder.setProductId(order.getProductId());
+            foundedOrder.setProduct(order.getProduct());
+            foundedOrder.setCustomer(order.getCustomer());
             orderRepository.save(foundedOrder);
         }
         else {
