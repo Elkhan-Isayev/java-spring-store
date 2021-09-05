@@ -1,11 +1,10 @@
 package com.encom.springstore.controller;
 
-
 import com.encom.springstore.exception.BadResourceException;
 import com.encom.springstore.exception.ResourceAlreadyExistsException;
 import com.encom.springstore.exception.ResourceNotFoundException;
-import com.encom.springstore.model.entity.Order;
-import com.encom.springstore.service.OrderService;
+import com.encom.springstore.model.entity.Product;
+import com.encom.springstore.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,18 +17,18 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(path = "/order")
-public class OrderController {
-    private final OrderService orderService;
+@RequestMapping(path = "/product")
+public class ProductController {
+    private final ProductService productService;
 
     //  return all with pagination and filter logic
-    @GetMapping("/orders")
-    public ResponseEntity<List<Order>> findAll(
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> findAll(
             @RequestParam(value="page", defaultValue="1") int pageNumber,
             @RequestParam(value="rowPerPage", defaultValue="5") int rowPerPageNumber) {
         try {
-            List<Order> orders = orderService.getAll(pageNumber, rowPerPageNumber);
-            return ResponseEntity.ok(orders);
+            List<Product> products = productService.getAll(pageNumber, rowPerPageNumber);
+            return ResponseEntity.ok(products);
         }
         catch (ResourceNotFoundException exception) {
             return ResponseEntity.notFound().build();
@@ -40,28 +39,28 @@ public class OrderController {
         }
     }
 
-    //  return specific order by id
-    @GetMapping(value = "/{orderID}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Order> findOrderById(@PathVariable int orderID) {
+    //  return specific product by id
+    @GetMapping(value = "/{productID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Product> findProductById(@PathVariable int productID) {
         try {
-            Order foundOrder = orderService.getById(orderID);
-            return ResponseEntity.ok(foundOrder);
+            Product foundProduct = productService.getById(productID);
+            return ResponseEntity.ok(foundProduct);
         }
         catch (ResourceNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         catch (Exception exception) {
-            log.error("findOrderById: {}", exception.getMessage());
+            log.error("findProductById: {}", exception.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    // return new created order
-    @PostMapping(value = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+    // return new created product
+    @PostMapping(value = "/products", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         try {
-            Order createdOrder = orderService.create(order);
-            return new ResponseEntity<Order>(createdOrder, HttpStatus.CREATED);
+            Product createdProduct = productService.create(product);
+            return new ResponseEntity<Product>(createdProduct, HttpStatus.CREATED);
         }
         catch (ResourceAlreadyExistsException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -70,16 +69,16 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         catch (Exception exception) {
-            log.error("addOrder: {}", exception.getMessage());
+            log.error("addProduct: {}", exception.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    // change existed order
-    @PutMapping(value="/{orderID}")
-    public ResponseEntity<Order> updateOrder(@RequestBody Order order, @PathVariable int orderID) {
+    // change existed product
+    @PutMapping(value="/{productID}")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable int productID) {
         try {
-            orderService.update(orderID, order);
+            productService.update(productID, product);
             return ResponseEntity.ok().build();
         }
         catch (ResourceNotFoundException exception) {
@@ -89,23 +88,23 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         catch (Exception exception) {
-            log.error("updateOrder: {}", exception.getMessage());
+            log.error("updateProduct: {}", exception.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    // delete order by id
-    @DeleteMapping(value="/{orderID}")
-    public ResponseEntity<Void> deleteOrderById(@PathVariable int orderID) {
+    // delete product by id
+    @DeleteMapping(value="/{productID}")
+    public ResponseEntity<Void> deleteProductById(@PathVariable int productID) {
         try {
-            orderService.delete(orderID);
+            productService.delete(productID);
             return ResponseEntity.ok().build();
         }
         catch (ResourceNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
         catch (Exception exception) {
-            log.error("deleteOrderById: {}", exception.getMessage());
+            log.error("deleteProductById: {}", exception.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
