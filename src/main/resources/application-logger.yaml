@@ -1,0 +1,7 @@
+logging:
+  file:
+    path: logs/
+  level:
+    root: info
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
